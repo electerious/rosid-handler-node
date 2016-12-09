@@ -1,0 +1,41 @@
+{
+  "name": "rosid-handler-node",
+  "version": "0.0.1",
+  "authors": [
+    "Tobias Reich <tobias@electerious.com>"
+  ],
+  "description": "Load JS and transform to HTML",
+  "main": "src/index.js",
+  "keywords": [
+    "rosid",
+    "handler",
+    "transform",
+    "compile",
+    "js",
+    "javascript",
+    "html"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/electerious/rosid-handler-node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electerious/rosid-handler-node.git"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "test": "istanbul cover _mocha"
+  },
+  "dependencies": {
+    "rename-extension": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.0",
+    "temp": "^0.8.3"
+  }
+}
