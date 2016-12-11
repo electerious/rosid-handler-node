@@ -6,12 +6,12 @@ const assert = require('chai').assert
 const temp   = require('temp').track()
 const index  = require('./../src/index')
 
-const newFile = function(content) {
+const newFile = function(content, suffix) {
 
 	// File must be in current dir so babel-register can load the plugins and presents
 	const file = temp.openSync({
 		dir    : __dirname,
-		suffix : '.js'
+		suffix : suffix
 	})
 
 	fs.writeFileSync(file.path, content)
@@ -52,7 +52,7 @@ describe('index()', function() {
 
 	it('should return an error when JS contains errors but everything is specified', function() {
 
-		const file = newFile(`module.exports = () =>`)
+		const file = newFile(`module.exports = () =>`, '.js')
 
 		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
 
@@ -68,7 +68,7 @@ describe('index()', function() {
 
 	it('should load JS and transform it to HTML when everything specified', function() {
 
-		const file = newFile(`module.exports = () => 'true'`)
+		const file = newFile(`module.exports = () => 'true'`, '.js')
 
 		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
 
@@ -86,7 +86,7 @@ describe('index()', function() {
 			const React = require('react')
 			const renderToStaticMarkup = require('react-dom/server').renderToStaticMarkup
 			module.exports = () => renderToStaticMarkup(<p>true</p>)
-		`)
+		`, '.js')
 
 		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
 
@@ -104,7 +104,7 @@ describe('index()', function() {
 			import React from 'react'
 			import { renderToStaticMarkup } from 'react-dom/server'
 			export default () => renderToStaticMarkup(<p>true</p>)
-		`)
+		`, '.js')
 
 		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
 
@@ -118,7 +118,7 @@ describe('index()', function() {
 
 	it('should load JS and transform it to HTML when distPath not specified', function() {
 
-		const file = newFile(`module.exports = () => 'true'`)
+		const file = newFile(`module.exports = () => 'true'`, '.js')
 
 		return index(file.path, '/src', null, null).then(({ data, savePath }) => {
 
