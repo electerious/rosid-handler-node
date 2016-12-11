@@ -19,6 +19,28 @@ node('/src/index.js', '/src', '/dist', {}).then(({ data, savePath }) => {})
 node('/src/index.html', '/src', '/dist', {}).then(({ data, savePath }) => {})
 ```
 
+## Example
+
+Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid#routes). `rosid-handler-node` will execute all matching JS files in your source folder and save the output as static HTML.
+
+```json
+{
+  "name"    : "Node",
+  "path"    : "[^_]*.{html,js}*",
+  "handler" : "rosid-handler-node"
+}
+```
+
+```js
+// index.js
+export default () => '<h1>Hello World</h1>'
+```
+
+```js
+// index.html (output)
+<h1>Hello World</h1>
+```
+
 ## Parameters
 
 - `filePath` `{String}` Absolute path to the requested file.
