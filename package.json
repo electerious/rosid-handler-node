@@ -29,6 +29,10 @@
     "test": "istanbul cover _mocha"
   },
   "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-register": "^6.18.0",
     "rename-extension": "^1.0.0"
   },
   "devDependencies": {
@@ -36,6 +40,8 @@
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.4",
     "mocha": "^3.0.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
     "temp": "^0.8.3"
   }
 }

@@ -5,6 +5,17 @@ const fs     = require('fs')
 const rename = require('rename-extension')
 const node   = require('./node')
 
+// Only babel require files inside the current cwd which are not in `node_modules`
+const cwd    = process.cwd()
+const regexp = new RegExp('^' + cwd + '(?!\\' + path.sep + 'node_modules)')
+
+// Babel require files matching regexp
+require('babel-register')({
+	only    : regexp,
+	plugins : [ 'transform-es2015-modules-commonjs' ],
+	presets : [ 'react' ]
+})
+
 /*
  * Load EJS and transform to HTML.
  * @public
