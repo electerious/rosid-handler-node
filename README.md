@@ -25,9 +25,9 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 
 ```json
 {
-  "name"    : "Node",
-  "path"    : "[^_]*.{html,js}*",
-  "handler" : "rosid-handler-node"
+	"name"    : "Node",
+	"path"    : "[^_]*.{html,js}*",
+	"handler" : "rosid-handler-node"
 }
 ```
 
