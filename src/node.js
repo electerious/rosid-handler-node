@@ -1,5 +1,7 @@
 'use strict'
 
+const decache = require('decache')
+
 /*
  * Execute JS and return the result.
  * @public
@@ -7,8 +9,9 @@
  */
 module.exports = function(filePath) {
 
-	// Force a fresh require by removing module from cache
-	delete require.cache[filePath]
+	// Force a fresh require by removing module from cache,
+	// including all of its child modules.
+	decache(filePath)
 
 	// Require module and execute it directly or its default function when using `export default`
 	const main   = require(filePath)
