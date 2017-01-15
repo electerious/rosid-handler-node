@@ -17,6 +17,8 @@ const node = require('rosid-handler-node')
 
 node('/src/index.js', '/src', '/dist', {}).then(({ data, savePath }) => {})
 node('/src/index.html', '/src', '/dist', {}).then(({ data, savePath }) => {})
+node('/src/index.xml', '/src', '/dist', { args: { fileExt: 'xml' } }).then(({ data, savePath }) => {})
+node('/src/index.js', '/src', '/dist', { args: { saveExt: 'xml' } }).then(({ data, savePath }) => {})
 ```
 
 ## Example
