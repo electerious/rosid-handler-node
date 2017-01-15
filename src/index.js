@@ -30,14 +30,17 @@ module.exports = function(filePath, srcPath, distPath, route) {
 	let savePath = null
 	let dataPath = null
 
+	const fileExt = (route.args && route.args.fileExt) || 'js'
+	const saveExt = (route.args && route.args.saveExt) || 'html'
+
 	let data = null
 
 	return Promise.resolve().then(() => {
 
 		// Prepare file paths
 
-		filePath = rename(filePath, 'js')
-		savePath = rename(filePath.replace(srcPath, distPath), 'html')
+		filePath = rename(filePath, fileExt)
+		savePath = rename(filePath.replace(srcPath, distPath), saveExt)
 
 	}).then(() => {
 

@@ -24,7 +24,7 @@ describe('index()', function() {
 
 	it('should return an error when called with an invalid filePath', function() {
 
-		return index(null, '/src', '/dist', null).then(({ data, savePath }) => {
+		return index(null, '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			throw new Error('Returned without error')
 
@@ -38,7 +38,7 @@ describe('index()', function() {
 
 	it('should return an error when called with a fictive filePath', function() {
 
-		return index('test.scss', '/src', '/dist', null).then(({ data, savePath }) => {
+		return index('test.scss', '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			throw new Error('Returned without error')
 
@@ -54,7 +54,7 @@ describe('index()', function() {
 
 		const file = newFile(`module.exports = () =>`, '.js')
 
-		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
+		return index(file.path, '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			throw new Error('Returned without error')
 
@@ -70,7 +70,7 @@ describe('index()', function() {
 
 		const file = newFile(`module.exports = () => 'true'`, '.js')
 
-		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
+		return index(file.path, '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			assert.isString(savePath)
 			assert.strictEqual(data, 'true')
@@ -88,7 +88,7 @@ describe('index()', function() {
 			module.exports = () => renderToStaticMarkup(<p>true</p>)
 		`, '.js')
 
-		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
+		return index(file.path, '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			assert.isString(savePath)
 			assert.strictEqual(data, '<p>true</p>')
@@ -106,7 +106,7 @@ describe('index()', function() {
 			export default () => renderToStaticMarkup(<p>true</p>)
 		`, '.js')
 
-		return index(file.path, '/src', '/dist', null).then(({ data, savePath }) => {
+		return index(file.path, '/src', '/dist', {}).then(({ data, savePath }) => {
 
 			assert.isString(savePath)
 			assert.strictEqual(data, '<p>true</p>')
@@ -116,11 +116,41 @@ describe('index()', function() {
 
 	})
 
+	it('should load XML and transform it to HTML when custom fileExt specified', function() {
+
+		const file  = newFile(`module.exports = () => 'true'`, '.xml')
+		const route = { args: { fileExt: 'xml' } }
+
+		return index(file.path, '/src', '/dist', route).then(({ data, savePath }) => {
+
+			assert.isString(savePath)
+			assert.strictEqual(data, 'true')
+			assert.strictEqual(savePath.substr(-5), '.html')
+
+		})
+
+	})
+
+	it('should load JS and transform it to XML when custom saveExt specified', function() {
+
+		const file  = newFile(`module.exports = () => 'true'`, '.js')
+		const route = { args: { saveExt: 'xml' } }
+
+		return index(file.path, '/src', '/dist', route).then(({ data, savePath }) => {
+
+			assert.isString(savePath)
+			assert.strictEqual(data, 'true')
+			assert.strictEqual(savePath.substr(-4), '.xml')
+
+		})
+
+	})
+
 	it('should load JS and transform it to HTML when distPath not specified', function() {
 
 		const file = newFile(`module.exports = () => 'true'`, '.js')
 
-		return index(file.path, '/src', null, null).then(({ data, savePath }) => {
+		return index(file.path, '/src', null, {}).then(({ data, savePath }) => {
 
 			assert.isString(savePath)
 			assert.strictEqual(data, 'true')
