@@ -12,6 +12,8 @@ npm install rosid-handler-node
 
 ## Usage
 
+### API
+
 ```js
 const node = require('rosid-handler-node')
 
@@ -19,7 +21,7 @@ node('/src/index.js').then((data) => {})
 node('/src/index.html').then((data) => {})
 ```
 
-## Rosid
+### Rosid
 
 Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid#routes). `rosid-handler-node` will execute all matching JS files in your source folder and save the output as static HTML.
 
