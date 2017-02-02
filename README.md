@@ -15,13 +15,11 @@ npm install rosid-handler-node
 ```js
 const node = require('rosid-handler-node')
 
-node('/src/index.js', '/src', '/dist', {}).then(({ data, savePath }) => {})
-node('/src/index.html', '/src', '/dist', {}).then(({ data, savePath }) => {})
-node('/src/index.xml', '/src', '/dist', { args: { fileExt: 'xml' } }).then(({ data, savePath }) => {})
-node('/src/index.js', '/src', '/dist', { args: { saveExt: 'xml' } }).then(({ data, savePath }) => {})
+node('/src/index.js').then((data) => {})
+node('/src/index.html').then((data) => {})
 ```
 
-## Example
+## Rosid
 
 Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid#routes). `rosid-handler-node` will execute all matching JS files in your source folder and save the output as static HTML.
 
@@ -45,13 +43,8 @@ export default () => '<h1>Hello World</h1>'
 
 ## Parameters
 
-- `filePath` `{String}` Absolute path to the requested file.
-- `srcPath` `{String}` Absolute path to the source folder.
-- `distPath` `{?String}` Absolute path to the export folder.
-- `route` `{Object}` The route which matched the request URL.
+- `filePath` `{String}` Absolute path to file.
 
 ## Returns
 
-- `{Promise}({Object})`
-	- `data` `{String | Buffer}` The transformed file content.
-	- `savePath` `{?String}` Where to save the file when compiling.
+- `{Promise}({String|Buffer})` The transformed file content.

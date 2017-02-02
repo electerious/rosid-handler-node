@@ -1,9 +1,8 @@
 'use strict'
 
-const path   = require('path')
-const fs     = require('fs')
-const rename = require('rename-extension')
-const node   = require('./node')
+const path = require('path')
+const fs   = require('fs')
+const node = require('./node')
 
 // Only babel require files inside the current cwd which are not in `node_modules`
 const cwd    = process.cwd()
@@ -19,49 +18,55 @@ require('babel-register')({
 /*
  * Load EJS and transform to HTML.
  * @public
- * @param {String} filePath - Absolute path to the requested file.
- * @param {String} srcPath - Absolute path to the source folder.
- * @param {String} distPath - Absolute path to the export folder.
- * @param {Object} route - The route which matched the request URL.
- * @returns {Promise} Returns the following properties if resolved: {Object}.
+ * @param {String} filePath - Absolute path to file.
+ * @param {?Object} opts - Options.
+ * @returns {Promise} Returns the following properties if resolved: {String}.
  */
-module.exports = function(filePath, srcPath, distPath, route) {
-
-	let savePath = null
-	let dataPath = null
-
-	const fileExt = (route.args && route.args.fileExt) || 'js'
-	const saveExt = (route.args && route.args.saveExt) || 'html'
-
-	let data = null
+module.exports = function(filePath, opts) {
 
 	return Promise.resolve().then(() => {
 
-		// Prepare file paths
-
-		filePath = rename(filePath, fileExt)
-		savePath = rename(filePath.replace(srcPath, distPath), saveExt)
+		if (typeof filePath!=='string')           throw new Error(`'filePath' must be a string`)
+		if (typeof opts!=='object' && opts!=null) throw new Error(`'opts' must be undefined, null or an object`)
 
 	}).then(() => {
-
-		// Process file
 
 		return node(filePath)
 
 	}).then((str) => {
 
-		return {
-			data     : str,
-			savePath : savePath
-		}
+		return str
 
 	})
 
 }
 
 /**
+ * Tell Rosid with which file extension it should load the file.
+ * @public
+ * @param {?Object} opts - Options.
+ */
+module.exports.in = function(opts) {
+
+	return (opts!=null && opts.in!=null) ? opts.in : 'js'
+
+}
+
+/**
+ * Tell Rosid with which file extension it should save the file.
+ * @public
+ * @param {?Object} opts - Options.
+ */
+module.exports.out = function(opts) {
+
+	return (opts!=null && opts.out!=null) ? opts.out : 'html'
+
+}
+
+/**
  * Attach an array to the function, which contains a list of
  * extensions used by the handler. The array will be used by Rosid for caching purposes.
+ * @public
  */
 module.exports.cache = [
 	'.js',

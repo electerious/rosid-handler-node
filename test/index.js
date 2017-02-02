@@ -22,9 +22,25 @@ const newFile = function(content, suffix) {
 
 describe('index()', function() {
 
-	it('should return an error when called with an invalid filePath', function() {
+	it('should return an error when called without a filePath', function() {
 
-		return index(null, '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index().then((data) => {
+
+			throw new Error('Returned without error')
+
+		}, (err) => {
+
+			assert.isNotNull(err)
+
+		})
+
+	})
+
+	it('should return an error when called with invalid options', function() {
+
+		const file = newFile(`module.exports = () => 'true'`, '.js')
+
+		return index(file, '').then((data) => {
 
 			throw new Error('Returned without error')
 
@@ -38,7 +54,7 @@ describe('index()', function() {
 
 	it('should return an error when called with a fictive filePath', function() {
 
-		return index('test.scss', '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index('test.js').then((data) => {
 
 			throw new Error('Returned without error')
 
@@ -54,7 +70,7 @@ describe('index()', function() {
 
 		const file = newFile(`module.exports = () =>`, '.js')
 
-		return index(file, '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index(file).then((data) => {
 
 			throw new Error('Returned without error')
 
@@ -70,11 +86,9 @@ describe('index()', function() {
 
 		const file = newFile(`module.exports = () => 'true'`, '.js')
 
-		return index(file, '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index(file).then((data) => {
 
-			assert.isString(savePath)
 			assert.strictEqual(data, 'true')
-			assert.strictEqual(savePath.substr(-5), '.html')
 
 		})
 
@@ -88,11 +102,9 @@ describe('index()', function() {
 			module.exports = () => renderToStaticMarkup(<p>true</p>)
 		`, '.js')
 
-		return index(file, '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index(file).then((data) => {
 
-			assert.isString(savePath)
 			assert.strictEqual(data, '<p>true</p>')
-			assert.strictEqual(savePath.substr(-5), '.html')
 
 		})
 
@@ -106,55 +118,65 @@ describe('index()', function() {
 			export default () => renderToStaticMarkup(<p>true</p>)
 		`, '.js')
 
-		return index(file, '/src', '/dist', {}).then(({ data, savePath }) => {
+		return index(file).then((data) => {
 
-			assert.isString(savePath)
 			assert.strictEqual(data, '<p>true</p>')
-			assert.strictEqual(savePath.substr(-5), '.html')
 
 		})
 
 	})
 
-	it('should load XML and transform it to HTML when custom fileExt specified', function() {
+	describe('.in()', function() {
 
-		const file  = newFile(`module.exports = () => 'true'`, '.xml')
-		const route = { args: { fileExt: 'xml' } }
+		it('should be a function', function() {
 
-		return index(file, '/src', '/dist', route).then(({ data, savePath }) => {
+			assert.isFunction(index.in)
 
-			assert.isString(savePath)
-			assert.strictEqual(data, 'true')
-			assert.strictEqual(savePath.substr(-5), '.html')
+		})
+
+		it('should return a default extension', function() {
+
+			assert.strictEqual(index.in(), 'js')
+
+		})
+
+		it('should return a default extension when called with invalid options', function() {
+
+			assert.strictEqual(index.in(''), 'js')
+
+		})
+
+		it('should return a custom extension when called with options', function() {
+
+			assert.strictEqual(index.in({ in: 'jsx' }), 'jsx')
 
 		})
 
 	})
 
-	it('should load JS and transform it to XML when custom saveExt specified', function() {
+	describe('.out()', function() {
 
-		const file  = newFile(`module.exports = () => 'true'`, '.js')
-		const route = { args: { saveExt: 'xml' } }
+		it('should be a function', function() {
 
-		return index(file, '/src', '/dist', route).then(({ data, savePath }) => {
-
-			assert.isString(savePath)
-			assert.strictEqual(data, 'true')
-			assert.strictEqual(savePath.substr(-4), '.xml')
+			assert.isFunction(index.in)
 
 		})
 
-	})
+		it('should return a default extension', function() {
 
-	it('should load JS and transform it to HTML when distPath not specified', function() {
+			assert.strictEqual(index.out(), 'html')
 
-		const file = newFile(`module.exports = () => 'true'`, '.js')
+		})
 
-		return index(file, '/src', null, {}).then(({ data, savePath }) => {
+		it('should return a default extension when called with invalid options', function() {
 
-			assert.isString(savePath)
-			assert.strictEqual(data, 'true')
-			assert.strictEqual(savePath.substr(-5), '.html')
+			assert.strictEqual(index.out(''), 'html')
+
+		})
+
+		it('should return a custom extension when called with options', function() {
+
+			assert.strictEqual(index.out({ out: 'xml' }), 'xml')
 
 		})
 
