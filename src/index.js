@@ -4,13 +4,8 @@ const path = require('path')
 const fs   = require('fs')
 const node = require('./node')
 
-// Only babel require files inside the current cwd which are not in `node_modules`
-const cwd    = process.cwd()
-const regexp = new RegExp('^' + cwd + '(?!\\' + path.sep + 'node_modules)')
-
-// Babel require files matching regexp
+// Require files with Babel
 require('babel-register')({
-	only    : regexp,
 	plugins : [ 'transform-es2015-modules-commonjs' ],
 	presets : [ 'react' ]
 })
