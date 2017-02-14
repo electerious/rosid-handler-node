@@ -2,10 +2,11 @@
 
 const decache = require('decache')
 
-/*
+/**
  * Execute JS and return the result.
  * @public
  * @param {String} filePath - Path to the JS file.
+ * @returns {Promise} Returns the following properties if resolved: {String}.
  */
 module.exports = function(filePath) {
 

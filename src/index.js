@@ -10,7 +10,7 @@ require('babel-register')({
 	presets : [ 'react' ]
 })
 
-/*
+/**
  * Load EJS and transform to HTML.
  * @public
  * @param {String} filePath - Absolute path to file.
@@ -40,6 +40,7 @@ module.exports = function(filePath, opts) {
  * Tell Rosid with which file extension it should load the file.
  * @public
  * @param {?Object} opts - Options.
+ * @returns {String} File extension.
  */
 module.exports.in = function(opts) {
 
@@ -51,6 +52,7 @@ module.exports.in = function(opts) {
  * Tell Rosid with which file extension it should save the file.
  * @public
  * @param {?Object} opts - Options.
+ * @returns {String} File extension.
  */
 module.exports.out = function(opts) {
 
