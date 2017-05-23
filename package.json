@@ -39,11 +39,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.13.1",
+    "fsify": "^2.0.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "temp": "^0.8.3",
     "uuid": "^3.0.1"
   }
 }
