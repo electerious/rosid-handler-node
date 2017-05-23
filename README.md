@@ -35,7 +35,7 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 
 ```js
 // index.js
-export default () => '<h1>Hello World</h1>'
+export default (next) => next(null, '<h1>Hello World</h1>')
 ```
 
 ```html

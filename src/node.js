@@ -1,6 +1,7 @@
 'use strict'
 
 const decache = require('decache')
+const pify    = require('pify')
 
 /**
  * Execute JS and return the result.
@@ -14,10 +15,10 @@ module.exports = function(filePath) {
 	// including all of its child modules.
 	decache(filePath)
 
-	// Require module and execute it directly or its default function when using `export default`
-	const main   = require(filePath)
-	const result = typeof main.default==='function' ? main.default() : main()
+	// Require module and use it directly or its default function when using `export default`
+	const main = require(filePath)
+	const fn   = typeof main.default==='function' ? main.default : main
 
-	return Promise.resolve(result)
+	return pify(fn)()
 
 }

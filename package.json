@@ -29,19 +29,21 @@
     "test": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.23.0",
-    "babel-preset-react": "^6.23.0",
-    "babel-register": "^6.23.0",
-    "decache": "^4.1.0"
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "decache": "^4.1.0",
+    "pify": "^2.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "coveralls": "^2.11.16",
+    "coveralls": "^2.13.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "temp": "^0.8.3"
+    "mocha": "^3.4.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "temp": "^0.8.3",
+    "uuid": "^3.0.1"
   }
 }
