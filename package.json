@@ -37,7 +37,7 @@
     "pify": "^2.3.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.2",
     "coveralls": "^2.13.1",
     "fsify": "^2.0.2",
     "istanbul": "^0.4.5",
