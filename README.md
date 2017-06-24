@@ -23,7 +23,7 @@ node('index.html').then((data) => {})
 
 ### Rosid
 
-Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid#routes). `rosid-handler-node` will execute all matching JS files in your source folder and save the output as static HTML.
+Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes array](https://github.com/electerious/Rosid/blob/master/docs/Routes.md). `rosid-handler-node` will execute all matching JS files in your source folder and save the output as static HTML.
 
 ```json
 {
