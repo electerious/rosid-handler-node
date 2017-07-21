@@ -1,47 +1,56 @@
 'use strict'
 
-const fs     = require('fs')
-const path   = require('path')
+const fs = require('fs')
+const path = require('path')
 const assert = require('chai').assert
-const uuid   = require('uuid/v4')
-const index  = require('./../src/index')
+const uuid = require('uuid/v4')
+const index = require('./../src/index')
 
-// Important: Files must be in cwd so babel-register can load the plugins and presents
+// Files must be in cwd so babel can load the plugins and presents
 const fsify = require('fsify')({
 	persistent: false
 })
 
 describe('index()', function() {
 
-	it('should return an error when called without a filePath', function() {
+	it('should return an error when called without a filePath', async function() {
 
-		return index().then((data) => {
+		return index().then((result) => {
 
 			throw new Error('Returned without error')
 
 		}, (err) => {
 
-			assert.isNotNull(err)
-			assert.isDefined(err)
+			assert.strictEqual(`'filePath' must be a string`, err.message)
 
 		})
 
 	})
 
-	it('should return an error when called with invalid options', function() {
+	it('should return an error when called with invalid options', async function() {
 
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
+		index(structure[0].name, '').then((result) => {
 
-			return index(structure[0].name, '')
+			throw new Error('Returned without error')
 
-		}).then((data) => {
+		}, (err) => {
+
+			assert.strictEqual(`'opts' must be undefined, null or an object`, err.message)
+
+		})
+
+	})
+
+	it('should return an error when called with a fictive filePath', async function() {
+
+		return index(`${ uuid() }.js`).then((result) => {
 
 			throw new Error('Returned without error')
 
@@ -54,64 +63,41 @@ describe('index()', function() {
 
 	})
 
-	it('should return an error when called with a fictive filePath', function() {
+	it('should return an error when JS passes an error to the callback', async function() {
 
-		return index('test.js').then((data) => {
+		const input = uuid()
 
-			throw new Error('Returned without error')
-
-		}, (err) => {
-
-			assert.isNotNull(err)
-			assert.isDefined(err)
-
-		})
-
-	})
-
-	it('should return an error when JS passes an error to the callback', function() {
-
-		const message = uuid()
-
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
-				contents: `module.exports = (next) => next(new Error('${ message }'))`
+				contents: `module.exports = (next) => next(new Error('${ input }'))`
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
-
-			return index(structure[0].name)
-
-		}).then((data) => {
+		return index(structure[0].name).then((result) => {
 
 			throw new Error('Returned without error')
 
 		}, (err) => {
 
-			assert.strictEqual(message, err.message)
+			assert.strictEqual(input, err.message)
 
 		})
 
 	})
 
-	it('should return an error when JS contains errors but everything is specified', function() {
+	it('should return an error when JS contains errors but everything is specified', async function() {
 
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
 				contents: `module.exports = (next) =>`
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
-
-			return index(structure[0].name)
-
-		}).then((data) => {
+		return index(structure[0].name).then((result) => {
 
 			throw new Error('Returned without error')
 
@@ -124,89 +110,71 @@ describe('index()', function() {
 
 	})
 
-	it('should load JS and transform it to HTML when everything specified', function() {
+	it('should load JS and transform it to HTML when everything specified', async function() {
 
-		const output = uuid()
+		const input = uuid()
 
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
-				contents: `module.exports = (next) => next(null, '${ output }')`
+				contents: `module.exports = (next) => next(null, '${ input }')`
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
+		const result = await index(structure[0].name)
 
-			return index(structure[0].name)
-
-		}).then((data) => {
-
-			assert.strictEqual(output, data)
-
-		})
+		assert.strictEqual(input, result)
 
 	})
 
-	it('should load JS with JSX and transform it to HTML when everything specified', function() {
+	it('should load JS with JSX and transform it to HTML when everything specified', async function() {
 
-		const output = `<p>${ uuid() }</p>`
+		const input = `<p>${ uuid() }</p>`
 
 		const contents = `
 			const React = require('react')
 			const renderToStaticMarkup = require('react-dom/server').renderToStaticMarkup
-			const html = renderToStaticMarkup(${ output })
+			const html = renderToStaticMarkup(${ input })
 			module.exports = (next) => next(null, html)
 		`
 
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
 				contents
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
+		const result = await index(structure[0].name)
 
-			return index(structure[0].name)
-
-		}).then((data) => {
-
-			assert.strictEqual(output, data)
-
-		})
+		assert.strictEqual(input, result)
 
 	})
 
-	it('should load JS with ES2015 syntax and transform it to HTML when everything specified', function() {
+	it('should load JS with ES2015 syntax and transform it to HTML when everything specified', async function() {
 
-		const output = `<p>${ uuid() }</p>`
+		const input = `<p>${ uuid() }</p>`
 
 		const contents = `
 			import React from 'react'
 			import { renderToStaticMarkup } from 'react-dom/server'
-			const html = renderToStaticMarkup(${ output })
+			const html = renderToStaticMarkup(${ input })
 			export default (next) => next(null, html)
 		`
 
-		const structure = [
+		const structure = await fsify([
 			{
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
 				contents
 			}
-		]
+		])
 
-		return fsify(structure).then((structure) => {
+		const result = await index(structure[0].name)
 
-			return index(structure[0].name)
-
-		}).then((data) => {
-
-			assert.strictEqual(output, data)
-
-		})
+		assert.strictEqual(input, result)
 
 	})
 

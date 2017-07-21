@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const fs   = require('fs')
+const fs = require('fs')
 const node = require('./node')
 
 // Require files with Babel
@@ -17,22 +17,12 @@ require('babel-register')({
  * @param {?Object} opts - Options.
  * @returns {Promise} Returns the following properties if resolved: {String}.
  */
-module.exports = function(filePath, opts) {
+module.exports = async function(filePath, opts) {
 
-	return Promise.resolve().then(() => {
+	if (typeof filePath!=='string') throw new Error(`'filePath' must be a string`)
+	if (typeof opts!=='object' && opts!=null) throw new Error(`'opts' must be undefined, null or an object`)
 
-		if (typeof filePath!=='string')           throw new Error(`'filePath' must be a string`)
-		if (typeof opts!=='object' && opts!=null) throw new Error(`'opts' must be undefined, null or an object`)
-
-	}).then(() => {
-
-		return node(filePath)
-
-	}).then((str) => {
-
-		return str
-
-	})
+	return node(filePath)
 
 }
 
