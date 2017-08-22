@@ -21,7 +21,7 @@ describe('index()', function() {
 
 		}, (err) => {
 
-			assert.strictEqual(`'filePath' must be a string`, err.message)
+			assert.strictEqual(err.message, `'filePath' must be a string`)
 
 		})
 
@@ -42,7 +42,7 @@ describe('index()', function() {
 
 		}, (err) => {
 
-			assert.strictEqual(`'opts' must be undefined, null or an object`, err.message)
+			assert.strictEqual(err.message, `'opts' must be undefined, null or an object`)
 
 		})
 
@@ -81,7 +81,7 @@ describe('index()', function() {
 
 		}, (err) => {
 
-			assert.strictEqual(input, err.message)
+			assert.strictEqual(err.message, input)
 
 		})
 
@@ -124,7 +124,7 @@ describe('index()', function() {
 
 		const result = await index(structure[0].name)
 
-		assert.strictEqual(input, result)
+		assert.strictEqual(result, input)
 
 	})
 
@@ -149,7 +149,7 @@ describe('index()', function() {
 
 		const result = await index(structure[0].name)
 
-		assert.strictEqual(input, result)
+		assert.strictEqual(result, input)
 
 	})
 
@@ -174,7 +174,7 @@ describe('index()', function() {
 
 		const result = await index(structure[0].name)
 
-		assert.strictEqual(input, result)
+		assert.strictEqual(result, input)
 
 	})
 
