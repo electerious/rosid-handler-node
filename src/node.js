@@ -7,7 +7,7 @@ const pify = require('pify')
  * Execute JS and return the result.
  * @public
  * @param {String} filePath - Path to the JS file.
- * @returns {Promise} Returns the following properties if resolved: {String}.
+ * @returns {Promise<String>} HTML.
  */
 module.exports = async function(filePath) {
 

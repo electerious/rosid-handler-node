@@ -49,4 +49,4 @@ export default (next) => next(null, '<h1>Hello World</h1>')
 
 ## Returns
 
-- `{Promise}({String|Buffer})` The transformed file content.
+- `{Promise<String|Buffer>}` The transformed file content.

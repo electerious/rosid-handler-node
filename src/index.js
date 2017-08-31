@@ -6,16 +6,16 @@ const node = require('./node')
 
 // Require files with Babel
 require('babel-register')({
-	plugins : [ 'transform-es2015-modules-commonjs' ],
-	presets : [ 'react' ]
+	plugins: [ 'transform-es2015-modules-commonjs' ],
+	presets: [ 'react' ]
 })
 
 /**
- * Load EJS and transform to HTML.
+ * Load JS and transform to HTML.
  * @public
  * @param {String} filePath - Absolute path to file.
  * @param {?Object} opts - Options.
- * @returns {Promise} Returns the following properties if resolved: {String}.
+ * @returns {Promise<String>} HTML.
  */
 module.exports = async function(filePath, opts) {
 
