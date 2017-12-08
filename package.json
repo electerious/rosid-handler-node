@@ -34,8 +34,8 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
-    "decache": "^4.3.0",
-    "pify": "^3.0.0"
+    "pify": "^3.0.0",
+    "stealthy-require": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -43,8 +43,8 @@
     "fsify": "^2.0.4",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
-    "react": "^16.1.0",
-    "react-dom": "^16.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "uuid": "^3.1.0"
   }
 }
