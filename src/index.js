@@ -1,7 +1,5 @@
 'use strict'
 
-const path = require('path')
-const fs = require('fs')
 const node = require('./node')
 
 // Require files with Babel

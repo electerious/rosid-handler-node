@@ -1,7 +1,7 @@
 'use strict'
 
+const util = require('util')
 const stealthyRequire = require('stealthy-require')
-const pify = require('pify')
 
 /**
  * Requires a fresh, uncached module.
@@ -36,6 +36,6 @@ module.exports = async function(filePath) {
 	const main = requireUncached(filePath)
 	const fn = typeof main.default==='function' ? main.default : main
 
-	return pify(fn)()
+	return util.promisify(fn)()
 
 }
