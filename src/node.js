@@ -30,12 +30,27 @@ const requireUncached = function(filePath) {
  * @param {String} filePath - Path to the JS file.
  * @returns {Promise<String>} HTML.
  */
-module.exports = async function(filePath) {
+module.exports = function(filePath) {
 
-	// Require module and use it directly or its default function when using `export default`
-	const main = requireUncached(filePath)
-	const fn = typeof main.default==='function' ? main.default : main
+	return new Promise((resolve, reject) => {
 
-	return util.promisify(fn)()
+		// Require module without caching it
+		const main = requireUncached(filePath)
+
+		// Use the default function when module has a `export default`
+		const fn = typeof main.default==='function' ? main.default : main
+
+		// Support both callback functions and async functions
+		const response = fn((err, data) => {
+
+			if (err!=null) return reject(err)
+
+			resolve(data)
+
+		})
+
+		if (response instanceof Promise===true) resolve(response)
+
+	})
 
 }

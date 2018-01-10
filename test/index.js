@@ -108,7 +108,7 @@ describe('index()', function() {
 
 	})
 
-	it('should load JS and transform it to HTML when everything specified', async function() {
+	it('should load callback JS and transform it to HTML when everything specified', async function() {
 
 		const input = uuid()
 
@@ -117,6 +117,24 @@ describe('index()', function() {
 				type: fsify.FILE,
 				name: `${ uuid() }.js`,
 				contents: `module.exports = (next) => next(null, '${ input }')`
+			}
+		])
+
+		const result = await index(structure[0].name)
+
+		assert.strictEqual(result, input)
+
+	})
+
+	it('should load async JS and transform it to HTML when everything specified', async function() {
+
+		const input = uuid()
+
+		const structure = await fsify([
+			{
+				type: fsify.FILE,
+				name: `${ uuid() }.js`,
+				contents: `module.exports = async () => '${ input }'`
 			}
 		])
 

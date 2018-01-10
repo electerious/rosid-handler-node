@@ -2,7 +2,7 @@
 
 [![Travis Build Status](https://travis-ci.org/electerious/rosid-handler-node.svg?branch=master)](https://travis-ci.org/electerious/rosid-handler-node) [![AppVeyor Status](https://ci.appveyor.com/api/projects/status/hmuf0jr4pdjiandt?svg=true)](https://ci.appveyor.com/project/electerious/rosid-handler-node) [![Coverage Status](https://coveralls.io/repos/github/electerious/rosid-handler-node/badge.svg?branch=master)](https://coveralls.io/github/electerious/rosid-handler-node?branch=master) [![Dependencies](https://david-dm.org/electerious/rosid-handler-node.svg)](https://david-dm.org/electerious/rosid-handler-node#info=dependencies)
 
-A function that loads a JS file and transforms it to HTML by executing the exported default function.
+A function that loads a JS file and transforms it to HTML by executing the exported default function. The export function can either be a asynchronous callback function or a async function returning a Promise.
 
 ## Install
 
@@ -35,11 +35,16 @@ Add the following object to your `rosidfile.json`, `rosidfile.js` or [routes arr
 
 ```js
 // index.js
+
+// Works with asynchronous callback functions
 export default (next) => next(null, '<h1>Hello World</h1>')
+// or async functions
+export default async () => await '<h1>Hello World</h1>'
 ```
 
 ```html
 <!-- index.html (output) -->
+
 <h1>Hello World</h1>
 ```
 
