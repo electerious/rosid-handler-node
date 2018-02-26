@@ -4,8 +4,13 @@ const node = require('./node')
 
 // Require files with Babel
 require('babel-register')({
-	plugins: [ 'transform-es2015-modules-commonjs' ],
-	presets: [ 'react' ]
+	plugins: [
+		'transform-es2015-modules-commonjs',
+		'syntax-object-rest-spread'
+	],
+	presets: [
+		'react'
+	]
 })
 
 /**
