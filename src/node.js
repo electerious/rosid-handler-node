@@ -1,6 +1,5 @@
 'use strict'
 
-const util = require('util')
 const stealthyRequire = require('stealthy-require')
 
 /**
@@ -38,18 +37,18 @@ module.exports = function(filePath) {
 		const main = requireUncached(filePath)
 
 		// Use the default function when module has a `export default`
-		const fn = typeof main.default==='function' ? main.default : main
+		const fn = typeof main.default === 'function' ? main.default : main
 
 		// Support both callback functions and async functions
 		const response = fn((err, data) => {
 
-			if (err!=null) return reject(err)
+			if (err != null) return reject(err)
 
 			resolve(data)
 
 		})
 
-		if (response instanceof Promise===true) resolve(response)
+		if (response instanceof Promise === true) resolve(response)
 
 	})
 
