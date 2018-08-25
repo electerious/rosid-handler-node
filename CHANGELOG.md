@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.1.2] - 2018-08-25
 
-### New
+### Changed
 
 - Updated dependencies
 
