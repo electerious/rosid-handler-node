@@ -12,13 +12,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.1.1] - 2018-02-26
 
-### New
+### Added
 
 - Support for object rest spread syntax
 
 ## [7.1.0] - 2018-01-10
 
-### New
+### Added
 
 - Support for async functions
 
@@ -48,7 +48,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.0.0] - 2017-07-21
 
-### New
+### Added
 
 - Only support Node.js 7 and 8
 
