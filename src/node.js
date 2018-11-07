@@ -1,27 +1,6 @@
 'use strict'
 
-const stealthyRequire = require('stealthy-require')
-
-/**
- * Requires a fresh, uncached module.
- * @param {String} filePath - File to require.
- * @returns {*} Required module.
- */
-const requireUncached = function(filePath) {
-
-	// Create a shallow copy of the array
-	const initialChildren = module.children.slice()
-
-	// Force a fresh require by removing module from cache,
-	// including all of its child modules.
-	const requiredModule = stealthyRequire(require.cache, () => require(filePath))
-
-	// Reset children to avoid a memory leak when repeatedly requiring fresh modules
-	module.children = initialChildren
-
-	return requiredModule
-
-}
+const continuousStealthyRequire = require('continuous-stealthy-require')
 
 /**
  * Execute JS and return the result.
@@ -34,7 +13,7 @@ module.exports = function(filePath) {
 	return new Promise((resolve, reject) => {
 
 		// Require module without caching it
-		const main = requireUncached(filePath)
+		const main = continuousStealthyRequire(filePath)
 
 		// Use the default function when module has a `export default`
 		const fn = typeof main.default === 'function' ? main.default : main
