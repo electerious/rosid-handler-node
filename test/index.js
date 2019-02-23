@@ -34,13 +34,13 @@ describe('index()', function() {
 			}
 		])
 
-		index(structure[0].name, '').then(() => {
+		return index(structure[0].name, '').then(() => {
 
 			throw new Error('Returned without error')
 
 		}, (err) => {
 
-			assert.strictEqual(err.message, `'opts' must be undefined, null or an object`)
+			assert.strictEqual(err.message, `'opts' must be undefined or an object`)
 
 		})
 
